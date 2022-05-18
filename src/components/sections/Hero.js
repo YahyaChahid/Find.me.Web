@@ -62,11 +62,11 @@ const Hero = ({
         <div className={innerClasses}>
           <div className="hero-content">
             <h1 className="mt-0 mb-16 reveal-from-bottom" data-reveal-delay="200">
-              <span className="text-color-primary">Smart Coordinator</span> the magic marker
+              <span className="text-color-primary">Find.me</span> the magic marker
             </h1>
             <div className="container-xs">
               <p className="m-0 mb-32 reveal-from-bottom" data-reveal-delay="400">
-                SmartCoordinator is a tool that makes it easier to find addresses
+                Find.me is a tool that makes it easier to find addresses
                 and contact information.
                 </p>
               <div className="reveal-from-bottom mt-4" data-reveal-delay="600">
@@ -96,8 +96,7 @@ const Hero = ({
               height={60}
             />
             <p className="textInsideImage px-2 py-1 bg-light text-black rounded-3">
-              Dive in and see how easy it is! <br/>
-              o3lach gadda Lmariouh
+              Dive in and see how easy it is!
             </p>
           </div>
         </div>

@@ -11,8 +11,21 @@ const AddInformation = () => {
             <section className="wrapper">
                 <div className="content mt-5 py-5">
                     <header>
-                        <h1>AddInformation</h1>
+                        <h1>More information</h1>
                     </header>
+                    <section>
+                        <form action="" className="login-form">
+                            <div className="input-group">
+                                <label htmlFor="firstName">More information</label>
+                                <input type="text" placeholder="More information" id="more_information" />
+                            </div>
+
+                            <div className="input-group">
+                                <button type="submit">Save</button>
+                            </div>
+                        </form>
+                    </section>
+
                 </div>
             </section>
 
