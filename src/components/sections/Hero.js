@@ -96,7 +96,8 @@ const Hero = ({
               height={60}
             />
             <p className="textInsideImage px-2 py-1 bg-light text-black rounded-3">
-              Dive in and see how easy it is!
+              Dive in and see how easy it is! <br/>
+              o3lach gadda Lmariouh
             </p>
           </div>
         </div>

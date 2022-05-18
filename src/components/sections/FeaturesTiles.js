@@ -45,7 +45,7 @@ const FeaturesTiles = ({
 
   const sectionHeader = {
     title: 'Get the exact location',
-    paragraph: 'SmartCoordinator is an application that allows to combine\n' +
+    paragraph: 'Fine.me is an application that allows to combine\n' +
         'addresses, contact information, photos and GPS coordinates in\n' +
         'a single ID with QR code with high sharing capabilities'
   };

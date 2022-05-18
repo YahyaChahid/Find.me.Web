@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import '../assets/style/zinebStyle.css'
 import {Helmet} from 'react-helmet';
 import img from '../assets/images/img.jpg'
 import {Link} from "react-router-dom";
+import Axios from 'axios';
 
 
 const Profile = () => {
+    const [profile,setProfile] = useState({});
+    const [qrcode,setQrCode] = useState("");
 
+    async function getMyInfo(){
+        try{
+            const myinfo = await Axios.get('http://localhost:3001/myprofile',{headers: {"auth" : localStorage.auth} });
+            setProfile(myinfo.data)
+            console.log(myinfo.data)
+        } catch(err){
+            console.log(err);
+        }
+    }
+    async function getQRCode() {
+        try{
+            const qrcode = await Axios.get('http://localhost:3001/qrcode/'+ profile._id);
+            setQrCode(qrcode)
+        }catch(err){
+            console.log(err);
+        }
+    }
+      useEffect(() => {
+        getMyInfo();
+      }, []);
     return (
         <>
             <Helmet>
@@ -19,22 +42,20 @@ const Profile = () => {
                         <div className="card mb-4"  style={{ backgroundColor: '#292c3a' }}>
                             <div className="card-body text-center">
                                 <div className="d-flex justify-content-center">
-                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar" className="rounded-circle img-fluid" style={{width: '150px'}} />
+                                    <img src={profile.profileImg} alt="avatar" className="rounded-circle img-fluid" style={{width: '150px'}} />
                                 </div>
-                                <h5 className="my-3">Lmariouh Zineb</h5>
+                                <h5 className="my-3">{profile.fullname}</h5>
                                 <p className="text-muted mb-1">Full Stack Developer</p>
                                 <p className="text-muted mb-4">Targa, Marrakech, Morocco</p>
                                 <div className="d-flex justify-content-center mb-2">
                                     <Link to="/localisation">
                                         <button type="button" className="btn btn-dark">Get Address</button>
                                     </Link>
-                                    <Link to="/addInformation">
-                                    <button type="button" className="btn btn-outline-primary ms-1">Add more</button>
-                                    </Link>
+                                    <button type="button" className="btn btn-outline-primary ms-1" onClick={getQRCode}>QR Code</button>
                                 </div>
                             </div>
                         </div>
-                        <div className="card mb-4 mb-lg-0"  style={{ backgroundColor: '#292c3a' }}>
+                        {/* <div className="card mb-4 mb-lg-0"  style={{ backgroundColor: '#292c3a' }}>
                             <div className="card-body p-0">
                                 <ul className="list-group list-group-flush rounded-3">
                                     <li className="list-group-item d-flex justify-content-between align-items-center p-3"  style={{ backgroundColor: '#292c3a' }}>
@@ -59,7 +80,7 @@ const Profile = () => {
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="col-lg-8">
                         <div className="card mb-4"  style={{ backgroundColor: '#292c3a' }}>
@@ -69,7 +90,7 @@ const Profile = () => {
                                         <p className="mb-0">Full Name</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">Lmariouh Zineb</p>
+                                        <p className="text-muted mb-0">{profile.fullname}</p>
                                     </div>
                                 </div>
                                 <hr />
@@ -78,7 +99,7 @@ const Profile = () => {
                                         <p className="mb-0">Email</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">zineblma@gmail.com</p>
+                                        <p className="text-muted mb-0">{profile.email}</p>
                                     </div>
                                 </div>
                                 <hr />
@@ -87,7 +108,7 @@ const Profile = () => {
                                         <p className="mb-0">Phone</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">+212 5 24-33757598</p>
+                                        <p className="text-muted mb-0">+212 {profile.phone}</p>
                                     </div>
                                 </div>
                                 <hr />
@@ -96,7 +117,7 @@ const Profile = () => {
                                         <p className="mb-0">Mobile</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">+212 6 45-33757598</p>
+                                        <p className="text-muted mb-0">+212 {profile.phone}</p>
                                     </div>
                                 </div>
                                 <hr />
@@ -105,16 +126,19 @@ const Profile = () => {
                                         <p className="mb-0">Address</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">Targa, Marrakech, Morocco</p>
+                                        <p className="text-muted mb-0">{profile.address}, {profile.city}, {profile.country}</p>
                                     </div>
                                 </div>
+                                <br />
                             </div>
                         </div>
-                        <div className="row">
+                        {qrcode != "" && (
+                            <div className="row">
                             <div className="col-md-6">
-                                <div className="card mb-4 mb-md-0"  style={{ backgroundColor: '#292c3a' }}>
+                                <div className="card mb-5 mb-md-0"  style={{ backgroundColor: '#292c3a' }}>
+                                    <img src={qrcode.data} alt="avatar"/>
                                     <div className="card-body">
-                                        <p className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status
+                                        {/* <p className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status
                                         </p>
                                         <p className="mb-1" style={{fontSize: '.77rem'}}>Web Design</p>
                                         <div className="progress rounded" style={{height: '5px'}}>
@@ -135,11 +159,11 @@ const Profile = () => {
                                         <p className="mt-4 mb-1" style={{fontSize: '.77rem'}}>Backend API</p>
                                         <div className="progress rounded mb-2" style={{height: '5px'}}>
                                             <div className="progress-bar" role="progressbar" style={{width: '66%'}} aria-valuenow={66} aria-valuemin={0} aria-valuemax={100} />
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-md-6">
+                            {/* <div className="col-md-6">
                                 <div className="card mb-4 mb-md-0"  style={{ backgroundColor: '#292c3a' }}>
                                     <div className="card-body">
                                         <p className="mb-4"><span className="text-primary font-italic me-1">assigment</span> Project Status
@@ -166,8 +190,10 @@ const Profile = () => {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
+                        )}
+                        
                     </div>
                 </div>
             </div>
